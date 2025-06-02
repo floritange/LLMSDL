@@ -20,9 +20,9 @@ pip install -r requirements.txt
 ---
 
 ### Single Repository Analysis
-example: datasets/llmdd/0__0__Shaunwei__RealChar
-defect_description: "The LLM's answers sometimes contradict the truth or the content of the uploaded file"
-defect_reproduction: "1.In the RealChar UI, select a character to converse with.\n2.Ask ambiguous questions."
+- example: datasets/llmdd/0__0__Shaunwei__RealChar
+- defect_description: "The LLM's answers sometimes contradict the truth or the content of the uploaded file"
+- defect_reproduction: "1.In the RealChar UI, select a character to converse with.\n2.Ask ambiguous questions."
 
 ```bash
 cd src
