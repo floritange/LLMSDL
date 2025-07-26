@@ -62,7 +62,8 @@ Interprets natural language defect reports and retrieves candidate functions lik
 ### 1. LLM-based Defect Interpretation
 
 #### System Prompt
-```
+```python
+f"""
 You are an expert at localizing LLM-specific software defects.
 Analyze the defect description and repository overview to identify code location clues.
 
@@ -82,10 +83,12 @@ Output ONLY a JSON via the `extract_defect_analysis_summary` function call with:
   - For methods: "file_path.py:ClassName:method_name"
   Example: ["src/utils.py::process_data", "src/api.py:ApiClient:send_request"]
 - "code_keywords": List of keywords likely near the bug (e.g., "api_key", "response.choices[0]")
+"""
 ```
 
 #### User Message
-```
+```python
+f"""
 Defect:
 {explanation}
 
@@ -99,6 +102,7 @@ Repository structure:
 {json.dumps(repo_overview, indent=2)}
 
 ONLY call function `extract_defect_analysis_summary` to output your results.
+"""
 ```
 
 #### Context Management
@@ -196,7 +200,8 @@ Performs context-aware validation using LLM to pinpoint the most likely defectiv
 ### 2. Stage 1: File-Level Importance Evaluation
 
 #### System Prompt
-```
+```python
+f"""
 You are a debugging expert for LLM applications.
 Assess which files are most likely to contain the ROOT CAUSE of a described defect.
 
@@ -220,10 +225,12 @@ Score guide:
 IMPORTANT: You MUST assign DISTINCT scores to each file - no two files can have the same score!
 
 ONLY use the `evaluate_file_importance` function call to output results.
+"""
 ```
 
 #### User Message
-```
+```python
+f"""
 Defect:
 - Explanation: {defect_explanation}
 - Consequences: {defect_consequences}
@@ -242,6 +249,7 @@ Global File Dependencies:
 ---
 
 Evaluate each file's importance using the `evaluate_file_importance` function tool.
+"""
 ```
 
 #### Context Management
@@ -283,7 +291,8 @@ Evaluate each file's importance using the `evaluate_file_importance` function to
 - **Purpose**: Capture closely related functions that might contain root cause
 
 #### System Prompt
-```
+```python
+"""
 You are a debugging expert for LLM applications.
 Assess which functions are most likely to contain the ROOT CAUSE of a described defect.
 
@@ -307,10 +316,12 @@ Score guide:
 IMPORTANT: You MUST assign DISTINCT scores to each function - no two functions can have the same score!
 
 ONLY use the `evaluate_functions_batch` function call to output results.
+"""
 ```
 
 #### User Message
-```
+```python
+"""
 Defect:
 - Explanation: {defect_explanation}
 - Consequences: {defect_consequences}
@@ -329,6 +340,7 @@ Global Function Dependencies:
 ---
 
 Evaluate each function using the `evaluate_functions_batch` function tool.
+"""
 ```
 
 #### Context Management
